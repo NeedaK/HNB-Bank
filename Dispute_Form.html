@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>National Bank Dispute Form</title>
+    <link rel="stylesheet" href="Dispute_Styles.css"> <!-- Link to External CSS File -->
+
+</head>
+<body>
+    <div class="container">
+        <div class="title-container">
+            <img src="HNB Logo.png" alt="HNB Bank Logo" class="logo">
+            <h2>HNB Bank</h2>
+        </div>
+        
+        <form id="disputeForm" action="Dispute_Email.php" method="POST"> <!-- Added Action Attribute -->
+            <label for="name"><b>Name/Business Name:</b></label> <!-- Name/Business Name Section-->
+            <input type="text" id="name" name="name" required> <!-- Box to type in information-->
+
+            <label for="address"><b>Address:</b></label> <!-- Name/Business Name Section-->
+            <input type="text" id="address" name="address" required>
+
+            <label for="city"><b>City, State, Zip:</b></label>
+            <input type="text" id="city" name="city" required>
+
+            <label for="phone"><b>Phone Number:</b></label>
+            <input type="tel" id="phone" name="phone" placeholder="(###) ### - ####" required>
+
+            <label for="email"><b>Email Address:</b></label>
+            <input type="email" id="email" name="email" required>
+
+            <label><b>Preferred Contact Method:</b></label> <!-- Preferred Contact Method Section -->
+            <div class="checkbox-group">
+                <label for="contactEmail">Email</label>
+                <input type="checkbox" id="contactEmail" name="contactMethod" value="Email">
+                <label for="contactMail">Mail</label>
+                <input type="checkbox" id="contactMail" name="contactMethod" value="Mail">
+            </div>
+
+            <label for="debitCard"><b>Debit Card Number:</b></label>
+            <input type="text" id="debitCard" name="debitCard" placeholder="################" maxlength="19" required>
+
+            <label for="dateError"><b>Awareness of the Error Date:</b></label>
+            <input type="date" id="dateError" name="dateError" required>
+
+            <label><b>How was this dispute sent?</b></label> <!-- How was this dispute sent in by the customer  -->
+            <div class="checkbox-group">
+                <label for="contactInPerson">In Person</label>
+                <input type="checkbox" id="contactInPerson" name="contactMethod" value="Person">
+                <label for="contactEmailMethod">Email</label>
+                <input type="checkbox" id="contactEmailMethod" name="contactMethod" value="Email">
+                <label for="contactOnline">Online</label>
+                <input type="checkbox" id="contactOnline" name="contactMethod" value="Online">
+                <label for="contactTelephone">Telephone</label>
+                <input type="checkbox" id="contactTelephone" name="contactMethod" value="Tele">
+            </div>
+
+            <!-- EMV Chip Card Section -->
+            <div class="emv-container">
+                <label for="emvChipCard" class="emv-label">EMV Chip Card</label>
+                <input type="checkbox" id="emvChipCard" name="emvChipCard" checked disabled>
+            </div>
+
+            <!-- Type of Loss Section -->
+            <label><b>Type of Loss</b></label>
+            <div class="checkbox-group">
+                <label for="lostCard">Lost Card</label>
+                <input type="checkbox" id="lostCard" name="lossType" value="Lost Card">
+                <label for="stolenCard">Stolen Card</label>
+                <input type="checkbox" id="stolenCard" name="lossType" value="Stolen Card">
+                <label for="possessionCard">Card was in my possession</label>
+                <input type="checkbox" id="possessionCard" name="lossType" value="Card in Possession">
+            </div>
+
+            <!-- Transactions Section -->
+            <label><b>Transactions</b></label>
+            <div id="transactions-container"> <!-- Container for Transactions -->
+                <div class="transaction-row">
+                    <input type="text" class="merchant-name" placeholder="Merchant Name">
+                    <input type="text" class="transaction-amount" id="transaction-amount" placeholder="$0.00">
+                    <input type="date" class="transaction-date">
+                    <button type="button" class="remove-transaction">X</button>
+                </div>
+            </div>
+            <p><a href="#" id="add-transaction">+ Add Another Transaction</a></p>  <!-- Add Transaction Button -->
+
+            <!-- Dispute Reason Section -->
+            <label for="dispute-reason"><b>The following explains your dispute:</b></label>
+            <select id="dispute-reason" class="dispute-reason">
+                <option value="" disabled selected>-- Select a Reason --</option>
+                <option value="not-received-merchandise">Not Received Merchandise</option>
+                <option value="not-received-service">Not Received Service</option>
+                <option value="recurring-charge-cancelled">Cancelled a Recurring Charge</option>
+                <option value="not-satisfied">Not Satisfied with Merchandise or Service Received</option>
+                <option value="overcharged">Overcharged or the Charged Amount is Not Correct</option>
+                <option value="charged-twice">Charged Twice for the Same Transaction</option>
+                <option value="expecting-credit">Expecting a Credit from the Merchant</option>
+                <option value="another-payment">Completed This Transaction with Another Form of Payment</option>
+            </select>
+
+<!-- Not Received Merchandise Section (Initially Hidden) -->
+            <div id="not-received-merchandise-section" style="display: none;">
+                <h3>Merchandise or Ticket</h3>
+
+                <!-- Required Fields -->
+                <div class="question-field">
+                    <label for="describe-merchandise"><strong>I. Describe merchandise or ticket ordered:</strong> <span class="required">*</span></label>
+                    <input type="text" id="describe-merchandise" name="describe-merchandise" required>
+                </div>
+
+                <div class="question-field">
+                    <label for="expected-date"><strong>II. Date of expected receipt:</strong> <span class="required">*</span></label>
+                    <input type="date" id="expected-date" name="expected-date" required>
+                </div>
+
+                <!-- Not Required: Agreed Location -->
+                <div class="question-field">
+                    <label><strong>III. Agreed upon location for delivery of merchandise:</strong></label>
+                    <div class="radio-options">
+                        <label for="home-address">Home Address</label>
+                        <input type="radio" id="home-address" name="delivery-location" value="Home Address">
+                        <label for="other-location-radio">Other</label>
+                        <input type="radio" id="other-location-radio" name="delivery-location" value="Other">
+                    </div>
+
+                    <!-- If Other is selected, show text input -->
+                    <input type="text" id="other-location" name="other-location" placeholder="Specify other location" style="display: none;">
+                </div>
+
+                <!-- Not Required: Merchandise Cancelled -->
+                <div class="question-field">
+                    <label><strong>IV. Was the merchandise cancelled due to non-receipt?</strong></label>
+                    <div class="radio-options">
+                        <label for="cancelled-yes">Yes</label>
+                        <input type="radio" id="cancelled-yes" name="merchandise-cancelled" value="Yes">
+                        <label for="cancelled-no">No</label>
+                        <input type="radio" id="cancelled-no" name="merchandise-cancelled" value="No">
+                    </div>
+                </div>
+
+                <!-- Not Required: Attempted to Resolve -->
+                <div class="question-field">
+                    <label><strong>V. Did the cardholder attempt to resolve with the merchant?</strong></label>
+                    <div class="radio-options">
+                        <label for="merch-resolve-yes">Yes</label>
+                        <input type="radio" id="merch-resolve-yes" name="attempted-resolution" value="Yes">
+                        <label for="merch-resolve-no">No</label>
+                        <input type="radio" id="merch-resolve-no" name="attempted-resolution" value="No">
+                    </div>
+                </div>
+
+                <!-- If Yes, show Date, Method, and Response -->
+                <div class="question-field" id="merch-resolve-details" style="display: none;">
+                    <label for="merch-resolve-details-input">Date of contact, method, and response:</label>
+                    <input type="text" id="merch-resolve-details-input" name="resolve-details">
+                </div>
+
+                <!-- If No, show "Why?" -->
+                <div class="question-field" id="merch-no-resolution-reason" style="display: none;">
+                    <label for="merch-no-resolution-input">Why did you not contact the merchant?</label>
+                    <input type="text" id="merch-no-resolution-input" name="no-resolution">
+                </div>
+            </div>
+
+<!-- Not Received Service Section (Initially Hidden) -->
+            <div id="not-received-service-section" style="display: none;">
+                <h3>Service</h3>
+
+                <!-- Required Fields -->
+                <div class="question-field">
+                    <label for="describe-service"><strong>I. Describe services ordered:</strong> <span class="required">*</span></label>
+                    <input type="text" id="describe-service" name="describe-service" required>
+                </div>
+
+                <div class="question-field">
+                    <label for="expected-service-date"><strong>II. Date of expected receipt:</strong> <span class="required">*</span></label>
+                    <input type="date" id="expected-service-date" name="expected-service-date" required>
+                </div>
+
+                <!-- Not Required: Service Cancelled -->
+                <div class="question-field">
+                    <label><strong>III. Was the service cancelled due to non-receipt?</strong></label>
+                    <div class="radio-options">
+                        <label for="service-cancelled-yes">Yes</label>
+                        <input type="radio" id="service-cancelled-yes" name="service-cancelled" value="Yes">
+                        <label for="service-cancelled-no">No</label>
+                        <input type="radio" id="service-cancelled-no" name="service-cancelled" value="No">
+                    </div>
+                </div>
+
+                <!-- Not Required: Attempted to Resolve -->
+                <div class="question-field">
+                    <label><strong>IV. Did the cardholder attempt to resolve with the merchant?</strong></label>
+                    <div class="radio-options">
+                        <label for="service-resolve-yes">Yes</label>
+                        <input type="radio" id="service-resolve-yes" name="service-attempted-resolution" value="Yes">
+                        <label for="service-resolve-no">No</label>
+                        <input type="radio" id="service-resolve-no" name="service-attempted-resolution" value="No">
+                    </div>
+                </div>
+
+                <!-- If Yes, show Date, Method, and Response -->
+                <div class="question-field" id="service-resolve-details" style="display: none;">
+                    <label for="service-resolve-details-input">Date of contact and method:</label>
+                    <input type="text" id="service-resolve-details-input" name="service-resolve-details">
+                </div>
+
+                <!-- If No, show "Why?" -->
+                <div class="question-field" id="service-no-resolution-reason" style="display: none;">
+                    <label for="service-no-resolution-input">Why did you not contact the merchant?</label>
+                    <input type="text" id="service-no-resolution-input" name="service-no-resolution">
+                </div>
+            </div>
+<!-- Recurring Charge Cancelled Section (Initially Hidden) -->
+            <div id="recurring-charge-cancelled-section" style="display: none;">
+                <h3><strong>Cancelled a Recurring Charge</strong></h3>
+
+                <!-- Required Fields -->
+                <div class="question-field">
+                    <label for="cancellation-date"><strong>a) Cancellation date:</strong> <span class="required">*</span></label>
+                    <input type="date" id="cancellation-date" name="cancellation-date" required>
+                </div>
+
+                <div class="question-field">
+                    <label for="contact-method"><strong>Date and method of contact:</strong> <span class="required">*</span></label>
+                    <input type="text" id="contact-method" name="contact-method" placeholder="Enter date and method of contact" required>
+                </div>
+            </div>
+
+<!-- Not Satisfied with Merchandise or Service Section (Initially Hidden) -->
+            <div id="not-satisfied-section" style="display: none;">
+                <h3><strong>Not satisfied with Merchandise or Service Received</strong></h3>
+
+                <!-- Select Merchandise or Service -->
+                <div class="question-field">
+                    <label><strong>Select Merchandise or Service:</strong></label>
+                    <div class="radio-options"><label for="not-satisfied-merchandise">Merchandise</label>
+                        <input type="radio" id="not-satisfied-merchandise" name="not-satisfied-type" value="merchandise">
+                        <label for="not-satisfied-service">Service</label>
+                        <input type="radio" id="not-satisfied-service" name="not-satisfied-type" value="service">
+                    </div>
+                </div>
+
+                <!-- Merchandise Follow-Up (Initially Hidden) -->
+                <div id="not-satisfied-merchandise-section" style="display: none;">
+                    <h4><strong>Merchandise</strong></h4>
+                    <p>If merchandise is selected, follow-up questions include whether the merchandise was:</p>
+                    <div class="radio-options"><label for="merchandise-not-described">Not as Described</label>
+                        <input type="radio" id="merchandise-not-described" name="merchandise-issue" value="not-as-described">
+                        <label for="merchandise-defective">Defective</label>
+                        <input type="radio" id="merchandise-defective" name="merchandise-issue" value="defective">
+                        <label for="merchandise-counterfeit">Counterfeit</label>                       
+                        <input type="radio" id="merchandise-counterfeit" name="merchandise-issue" value="counterfeit">
+                    </div>
+
+                    <div class="question-field">
+                        <label for="merchandise-details"><strong>Explanation and Details:</strong></label>
+                        <textarea id="merchandise-details" name="merchandise-details" rows="3" placeholder="Provide additional details..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Service Follow-Up (Initially Hidden) -->
+                <div id="not-satisfied-service-section" style="display: none;">
+                    <h4><strong>Service</strong></h4>
+                    <p>If service is selected, follow-up questions involve:</p>
+                    <div class="question-field">
+                        <label for="service-details"><strong>Description of the service and why it was not as described:</strong></label>
+                        <textarea id="service-details" name="service-details" rows="3" placeholder="Provide additional details..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+<!-- Overcharged or Incorrect Charge Section (Initially Hidden) -->
+            <div id="overcharged-section" style="display: none;">
+                <h3><strong>Overcharged or the charged amount is not correct</strong></h3>
+
+                <!-- Required Field for Amount on Sales Receipt -->
+                <div class="question-field">
+                    <label for="overcharged-amount"><strong>Please provide the amount on your sales receipt:</strong> <span class="required">*</span></label>
+                    <input type="text" id="overcharged-amount" name="overcharged-amount" placeholder="Enter amount ($0.00)" required>
+                </div>
+
+                <!-- Upload Sales Receipt -->
+                <div class="question-field">
+                    <label for="sales-receipt"><strong>Upload a copy of the sales receipt (if applicable):</strong></label>
+                    <input type="file" id="sales-receipt" name="sales-receipt" accept=".pdf, .jpg, .png">
+                </div>
+            </div>
+
+<!-- Charged Twice for the Same Transaction Section (Initially Hidden) -->
+            <div id="charged-twice-section" style="display: none;">
+                <h3><strong>Charged twice</strong></h3>
+
+                <!-- Required Field: Transaction Amount -->
+                <div class="question-field">
+                    <label for="charged-twice-amount"><strong>a) What was the transaction amount?</strong> <span class="required">*</span></label>
+                    <input type="text" id="charged-twice-amount" name="charged-twice-amount" placeholder="Enter amount ($0.00)" required>
+                </div>
+
+                <!-- Required Field: Transaction Date -->
+                <div class="question-field">
+                    <label for="charged-twice-date"><strong>b) What was the transaction date?</strong> <span class="required">*</span></label>
+                    <input type="date" id="charged-twice-date" name="charged-twice-date" required>
+                </div>
+            </div>
+
+<!-- Expecting a Credit from the Merchant Section (Initially Hidden) -->
+            <div id="expecting-credit-section" style="display: none;">
+                <h3><strong>Expecting a credit</strong></h3>
+
+                <!-- Required: Select Information Type -->
+                <div class="question-field">
+                    <label for="credit-type"><strong>a) Select the type of purchase: Merchandise, Timeshare, or Service.</strong> <span class="required">*</span></label>
+                    <select id="credit-type" name="credit-type" required>
+                        <option value="" disabled selected>-- Select an Option --</option>
+                        <option value="merchandise">Merchandise</option>
+                        <option value="timeshare">Timeshare</option>
+                        <option value="service">Service</option>
+                    </select>
+                </div>
+
+                <!-- Merchandise Section -->
+                <div id="merchandise-credit" class="credit-subsection" style="display: none;">
+                    <h4>Merchandise</h4>
+                    <label for="merchandise-details"><b>Was a credit voucher, voided transaction, receipt, or refund acknowledgment provided for the merchandise? If so, please specify which one.</b></label>
+                    <textarea id="merchandise-details" name="merchandise-details"></textarea>
+                    <label for="merchandise-details"><b>What was the description of the purchased and/or returned item, and what was the reason for the return or cancellation?</b></label>
+                    <textarea id="merchandise-details" name="merchandise-details"></textarea>
+                    <label for="merchandise-details"><b>Did you attempt to resolve the issue with the merchant, and were you informed of their return policy? If so, what was their response?</b></label>
+                    <textarea id="merchandise-details" name="merchandise-details"></textarea>
+                </div>
+
+                <!-- Timeshare Section -->
+                <div id="timeshare-credit" class="credit-subsection" style="display: none;">
+                    <h4>Timeshare</h4>
+
+                    <!-- Textarea for describing purchase details -->
+                    <label for="timeshare-details"><b>Describe what was purchased as part of the timeshare agreement?</b></label>
+                    <textarea id="timeshare-details" name="timeshare-details"></textarea>
+
+                    <div class="timeshare-question">
+                        <p>Was the timeshare purchase canceled?</p>
+                    
+                        <div class="timeshare-option">
+                            <label for="timeshare-cancel-yes">Yes</label>
+                            <input type="checkbox" id="timeshare-cancel-yes" name="timeshare-cancel" value="yes">
+                        </div>
+                    
+                        <div class="timeshare-option">
+                            <label for="timeshare-cancel-no">No</label>
+                            <input type="checkbox" id="timeshare-cancel-no" name="timeshare-cancel" value="no">
+                        </div>
+                    </div>
+                    
+                    <div id="cancellation-date-section">
+                        <label for="timeshare-cancel-date">If so, what was the date of the cancellation?</label>
+                        <input type="date" id="timeshare-cancel-date" name="timeshare-cancel-date">
+                    </div>
+
+                    <label for="timeshare-details"><b>Did you attempt to resolve the issue with the merchant? If so, what was their response?</b></label>
+                    <textarea id="timeshare-details" name="timeshare-details"></textarea>
+                </div>
+                   
+                <!-- Service Section -->
+                <div id="service-credit" class="credit-subsection" style="display: none;">
+                    <h4>Service</h4>
+
+                    <!-- Description of Services -->
+                    <label for="service-details"><b>Describe the services to be provided:</b></label>
+                    <textarea id="service-details" name="service-details"></textarea>
+
+                    <!-- Credit Voucher, Voided Transaction Receipt, or Refund Acknowledgment -->
+                    <p><b>Was a credit voucher, voided transaction receipt, or refund acknowledgment provided?</b></p>
+                    <div class="service-option-group">
+                        <label for="service-credit-yes">Yes</label>
+                        <input type="checkbox" id="service-credit-yes" name="service-credit" value="yes">
+
+                        <label for="service-credit-no">No</label>
+                        <input type="checkbox" id="service-credit-no" name="service-credit" value="no">
+                    </div>
+
+                    <!-- Prompt to Attach Receipt -->
+                    <div id="receipt-upload-section" style="display: none;">
+                        <label for="service-receipt">Attach Receipt (if available):</label>
+                        <input type="file" id="service-receipt" name="service-receipt" accept=".jpg, .jpeg, .png, .pdf">
+                    </div>
+
+                    <!-- Service Cancellation Question -->
+                    <p><b>Was the service canceled?</b></p>
+                    <div class="service-option-group">
+                        <label for="service-cancel-yes">Yes</label>
+                        <input type="checkbox" id="service-cancel-yes" name="service-cancel" value="yes">
+
+                        <label for="service-cancel-no">No</label>
+                        <input type="checkbox" id="service-cancel-no" name="service-cancel" value="no">
+                    </div>
+
+                    <!-- Merchant Resolution Attempt -->
+                    <p><b>Did you attempt to resolve the issue with the merchant?</b></p>
+                    <div class="service-option-group">
+                        <label for="merchant-resolve-yes">Yes</label>
+                        <input type="checkbox" id="merchant-resolve-yes" name="merchant-resolve" value="yes">
+
+                        <label for="merchant-resolve-no">No</label>
+                        <input type="checkbox" id="merchant-resolve-no" name="merchant-resolve" value="no">
+                    </div>
+
+                    <!-- Merchant Contact Details -->
+                    <div id="merchant-contact-section" style="display: none;">
+                        <label for="merchant-contact-date">Date of Most Recent Contact:</label>
+                        <input type="date" id="merchant-contact-date" name="merchant-contact-date">
+
+                        <label for="merchant-contact-name">Name of Merchant Contact:</label>
+                        <input type="text" id="merchant-contact-name" name="merchant-contact-name">
+
+                        <label for="merchant-contact-method">Method of Contact:</label>
+                        <select id="merchant-contact-method" name="merchant-contact-method">
+                            <option value="">Select Method</option>
+                            <option value="phone">Phone</option>
+                            <option value="email">Email</option>
+                            <option value="in-person">In Person</option>
+                            <option value="other">Other</option>
+                        </select>
+
+                        <label for="merchant-response">Merchant's Response:</label>
+                        <textarea id="merchant-response" name="merchant-response"></textarea>
+                    </div>
+                </div>
+
+
+<!-- Completed This Transaction with Another Form of Payment Section -->
+                <div id="completed-other-payment-section" style="display: none;">
+                    <h3><strong>Completed this Transaction with Another Form of Payment</strong></h3>
+
+                    <!-- Required: Did the cardholder attempt to resolve the issue? -->
+                    <div class="question-field">
+                        <label><strong>Did the cardholder attempt to resolve the issue with the merchant?</strong> <span
+                                class="required">*</span></label>
+                        <select id="payment-resolve-attempt" name="resolve-attempt" required>
+                            <option value="" disabled selected>-- Select an Option --</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                            <option value="not-applicable">Not Applicable</option>
+                        </select>
+                    </div>
+
+                    <!-- If "Yes" is Selected -->
+                    <div id="payment-resolve-yes" class="resolve-subsection" style="display: none;">
+                        <label for="payment-resolve-details">Provide details of the most recent contact with the merchant:</label>
+                        <textarea id="payment-resolve-details" name="resolve-details"></textarea>
+                    </div>
+
+                    <!-- If "No" or "Not Applicable" is Selected -->
+                    <div id="payment-resolve-no" class="resolve-subsection" style="display: none;">
+                        <label for="payment-no-reason">Provide reason why no resolution attempt was made:</label>
+                        <textarea id="payment-no-reason" name="no-reason"></textarea>
+                    </div>
+
+                    <!-- Not Required: Payment Method -->
+                    <div class="question-field">
+                        <label for="payment-method"><strong>Payment Method (Not Required)</strong></label>
+                        <select id="payment-method" name="payment-method">
+                            <option value="" disabled selected>-- Select Payment Method --</option>
+                            <option value="cash">Cash</option>
+                            <option value="atm-debit">ATM/Debit</option>
+                            <option value="check">Check</option>
+                            <option value="other-card">Other Payment Card</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <!-- If Proof is Provided -->
+                    <div id="proof-upload" class="proof-subsection" style="display: none;">
+                        <label for="proof-attachment">Upload proof of payment:</label>
+                        <input type="file" id="proof-attachment" name="proof-attachment">
+                    </div>
+                </div>
+        <button type="submit">Submit</button>
+        </form>
+    </div>
+    <script src="ALL.js"></script> 
+</body>
+</html>
