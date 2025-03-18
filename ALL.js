@@ -386,21 +386,28 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 //Completed This Transaction with Another Form of Payment Section
-        const disputeReasonSelect = document.getElementById("dispute-reason");
-        const paymentSection = document.getElementById("completed-other-payment-section");
-        const resolveAttemptSelect = document.getElementById("payment-resolve-attempt");
-        const resolveYesDiv = document.getElementById("payment-resolve-yes");
-        const resolveNoDiv = document.getElementById("payment-resolve-no");
+    const disputeReasonSelect = document.getElementById("dispute-reason");
+    const paymentSection = document.getElementById("completed-other-payment-section");
+    const resolveAttemptSelect = document.getElementById("payment-resolve-attempt");
+    const resolveYesDiv = document.getElementById("payment-resolve-yes");
+    const resolveNoDiv = document.getElementById("payment-resolve-no");
+    const paymentMethodSelect = document.getElementById("payment-method");
+    const proofUploadDiv = document.getElementById("proof-upload");
 
-        function toggleVisibility(element, show) {
+    function toggleVisibility(element, show) {
+        if (element) {
             element.style.display = show ? "block" : "none";
         }
+    }
 
-        disputeReasonSelect.addEventListener("change", function() {
+    if (disputeReasonSelect) {
+        disputeReasonSelect.addEventListener("change", function () {
             toggleVisibility(paymentSection, this.value === "another-payment");
         });
+    }
 
-        resolveAttemptSelect.addEventListener("change", function() {
+    if (resolveAttemptSelect) {
+        resolveAttemptSelect.addEventListener("change", function () {
             if (this.value === "yes") {
                 toggleVisibility(resolveYesDiv, true);
                 toggleVisibility(resolveNoDiv, false);
@@ -412,5 +419,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 toggleVisibility(resolveNoDiv, false);
             }
         });
- });
- 
+    }
+
+    if (paymentMethodSelect) {
+        paymentMethodSelect.addEventListener("change", function () {
+            toggleVisibility(proofUploadDiv, this.value !== ""); // Show if a valid payment method is selected
+        });
+    }
+});
