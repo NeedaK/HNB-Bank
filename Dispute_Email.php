@@ -3,77 +3,106 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-var_dump($_POST); exit;
+require 'vendor/autoload.php'; // Adjust path if necessary; PHPMailer must be installed via Composer
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Recipient Email Address
-    $to = "anita.kraus.13@student.hlg.edu";
 
-    // Subject of the Email
+    $to = "anita.kraus.54@gmail.com"; // Recipient Email Address
     $subject = "Dispute Form Submission";
 
     // Function to Sanitize Input
     function sanitizeInput($data) {
-        return htmlspecialchars(strip_tags($data), ENT_QUOTES, 'UTF-8');
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
     }
 
     // Sanitize Input Data
-    $name = sanitizeInput($_POST["name"]);
-    $address = sanitizeInput($_POST["address"]);
-    $city = sanitizeInput($_POST["city"]);
-    $phone = sanitizeInput($_POST["phone"]);
-    $email = sanitizeInput($_POST["email"]);
-    $contactMethod = isset($_POST["contactMethod"]) ? sanitizeInput($_POST["contactMethod"]) : "N/A";  // Handle unchecked checkboxes
-    $debitCard = sanitizeInput($_POST["debitCard"]);
-    $dateError = sanitizeInput($_POST["dateError"]);
-    $contactMethod = isset($_POST["contactMethod"]) ? sanitizeInput($_POST["contactMethod"]) : "N/A"; // Checkbox.
+
+    $name = sanitizeInput($_POST["name"] ?? "");
+    $address = sanitizeInput($_POST["address"] ?? "");
+    $city = sanitizeInput($_POST["city"] ?? "");
+    $phone = sanitizeInput($_POST["phone"] ?? "");
+    $email = sanitizeInput($_POST["email"] ?? "");
+    $contactMethod = isset($_POST["contactMethod"]) ? sanitizeInput($_POST["contactMethod"]) : "N/A"; // Handle unchecked checkboxes
+    $debitCard = sanitizeInput($_POST["debitCard"] ?? "");
+    $dateError = sanitizeInput($_POST["dateError"] ?? "");
+    $contactMethodDetail = sanitizeInput($_POST["contactMethodDetail"] ?? "");
+
     $lossType = isset($_POST["lossType"]) ? sanitizeInput($_POST["lossType"]) : "N/A";
 
-    $merchantName = isset($_POST["merchant-name"]) ? sanitizeInput($_POST["merchant-name"]) : "N/A";
-    $transactionAmount = isset($_POST["transaction-amount"]) ? sanitizeInput($_POST["transaction-amount"]) : "N/A";
-    $transactionDate = isset($_POST["transaction-date"]) ? sanitizeInput($_POST["transaction-date"]) : "N/A";
+    $merchantName = sanitizeInput($_POST["merchant-name"] ?? "N/A");
+    $transactionAmount = sanitizeInput($_POST["transaction-amount"] ?? "N/A");
+    $transactionDate = sanitizeInput($_POST["transaction-date"] ?? "N/A");
 
-    $disputeReason = isset($_POST["dispute-reason"]) ? sanitizeInput($_POST["dispute-reason"]) : "N/A";
-    $cancellationDate = isset($_POST["cancellation-date"]) ? sanitizeInput($_POST["cancellation-date"]) : "N/A";
-    $contactMethodDetail = isset($_POST["contact-method"]) ? sanitizeInput($_POST["contact-method"]) : "N/A";
+    $disputeReason = sanitizeInput($_POST["dispute-reason"] ?? "N/A");
+    $cancellationDate = sanitizeInput($_POST["cancellation-date"] ?? "N/A");
 
-    // Build the Email Body with Specific Formatting
-    $message = "Dispute Form Submission Details:\n\n";
-    $message .= "Name/Business Name: " . $name . "\n";
-    $message .= "Address: " . $address . "\n";
-    $message .= "City, State, Zip: " . $city . "\n";
-    $message .= "Phone Number: " . $phone . "\n";
-    $message .= "Email Address: " . $email . "\n";
-    $message .= "Preferred Contact Method: " . $contactMethod . "\n";
-    $message .= "Debit Card Number: " . $debitCard . "\n";
-    $message .= "Awareness of the Error Date: " . $dateError . "\n";
-    $message .= "How was this dispute sent?: " . $contactMethod . "\n";
-    $message .= "Type of Loss: " . $lossType . "\n";
-    $message .= "Transactions: " . $merchantName . " $" . $transactionAmount . " " . $transactionDate . "\n";
-    $message .= "The following explains your dispute: " . $disputeReason . "\n";
-    $message .= "Cancellation date: " . $cancellationDate . "\n";
-    $message .= "Date and method of contact: " . $contactMethodDetail . "\n";
+    // 1. Check for Required Fields:
+    if (empty($name) || empty($email) || empty($address) || empty($city) || empty($phone) || empty($debitCard) || empty($dateError)) {
+            header("Location: Dispute_Form.html?status=required_fields");
+            exit(); // Stop further execution!
+    }
 
-   
-    // Additional Headers (Optional, but recommended)
-    $headers = "From: webform@yourdomain.com\r\n"; // Replace with your domain (or a no-reply address)
-    $headers .= "Reply-To: webform@yourdomain.com\r\n";
-    $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";  // Ensures proper character encoding
-    $headers .= "X-Mailer: PHP/" . phpversion();
+    // 2. Validate Debit Card Length:
+    $debitCard = preg_replace('/\s+/', '', $debitCard); //remove spaces, this may interfer with the js remove function
+    if (strlen($debitCard) != 16) {
+           header("Location: Dispute_Form.html?status=invalid_debitCard");
+           exit(); // Stop further execution!
+    }
 
-    // Send the Email
-    if (mail($to, $subject, $message, $headers)) {
-        // Success Message (You can redirect the user to a thank you page)
-        //echo "<p>Thank you for your submission!  An email has been sent.</p>";
-        //header("Location: thank_you.html"); // Redirect to a thank you page if you have one
-      header("Location: Dispute_Form.html?status=success"); // Redirect back with success
-    } else {
-        // Error Message
-        //echo "<p>Sorry, there was a problem sending your message. Please try again later.</p>";
-        header("Location: Dispute_Form.html?status=error"); // Redirect back with error
+    if($contactMethod === "N/A"){
+            header("Location: Dispute_Form.html?status=no_contactMethod");
+            exit();
+    }
+
+    // 3. Build the Email Body with Specific Formatting
+    $messageBody = "Dispute Form Submission Details:\n\n";
+    $messageBody .= "Name/Business Name: " . $name . "\n";
+    $messageBody .= "Address: " . $address . "\n";
+    $messageBody .= "City, State, Zip: " . $city . "\n";
+    $messageBody .= "Phone Number: " . $phone . "\n";
+    $messageBody .= "Email Address: " . $email . "\n\n";
+    $messageBody .= "Preferred Contact Method: " . $contactMethod . "\n";
+    $messageBody .= "Contact Method Details: " . $contactMethodDetail . "\n\n";
+    $messageBody .= "Loss Type: " . $lossType . "\n\n";
+    $messageBody .= "Merchant Name: " . $merchantName . "\n";
+    $messageBody .= "Transaction Amount: " . $transactionAmount . "\n";
+    $messageBody .= "Transaction Date: " . $transactionDate . "\n";
+    $messageBody .= "Dispute Reason: " . $disputeReason . "\n";
+    $messageBody .= "Cancellation Date: " . $cancellationDate . "\n";
+    $messageBody .= "Date of Error: " . $dateError . "\n";
+
+    // PHPMailer setup
+    $mail = new PHPMailer(true);
+
+    try {
+        // Server settings
+        $mail->SMTPDebug = 0;                      // Enable verbose debug output (0 for no output, 2 for detailed output)
+        $mail->isSMTP();                                            // Send using SMTP
+        $mail->Host       = 'smtp.gmail.com';                    // Set the SMTP server to send through
+        $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
+        $mail->Username   = 'your_gmail_username@gmail.com';                     // SMTP username
+        $mail->Password   = 'your_app_password';                               // SMTP password (USE APP PASSWORD!)
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
+        $mail->Port       = 587;                                    // TCP port to connect to, use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+        // Recipients
+        $mail->setFrom('your_gmail_username@gmail.com', 'HNB Bank Dispute Form'); // Your Gmail Address
+        $mail->addAddress($to);     // Add a recipient (Anita's address)
+
+        // Content
+        $mail->isHTML(false);                                  // Set email format to plain text
+        $mail->Subject = $subject;
+        $mail->Body    = $messageBody;
+
+        $mail->send();
+        header("Location: Dispute_Form.html?status=success"); // Redirect back with success
+    } catch (Exception $e) {
+        header("Location: Dispute_Form.html?status=mailer_error&error=" . urlencode($e->getMessage())); // Redirect back with mailer error
     }
 } else {
-    // If someone tries to access the PHP file directly
-    echo "<p>This page cannot be accessed directly.</p>";
+    echo "This script can only be accessed through the form.";
 }
 ?>
