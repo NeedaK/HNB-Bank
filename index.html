@@ -816,132 +816,129 @@
             </div>
 
 <!-- Expecting a Credit from the Merchant Section (Initially Hidden) -->
-            <div id="expecting-credit-section" style="display: none;">
-                <h3><strong>Expecting a credit</strong></h3>
+<div id="expecting-credit-section" style="display: none;">
+    <h3><strong>Expecting a credit</strong></h3>
 
-                <!-- Required: Select Information Type -->
-                <div class="question-field">
-                    <label for="credit-type"><strong>a) Select the type of purchase: Merchandise, Timeshare, or Service.</strong> <span class="required">*</span></label>
-                    <select id="credit-type" name="credit-type" required>
-                        <option value="" disabled selected>-- Select an Option --</option>
-                        <option value="merchandise">Merchandise</option>
-                        <option value="timeshare">Timeshare</option>
-                        <option value="service">Service</option>
-                    </select>
-                </div>
+    <!-- Required: Select Information Type -->
+    <div class="question-field">
+        <label for="credit-type"><strong>a) Select the type of purchase: Merchandise, Timeshare, or Service.</strong>
+            <span class="required">*</span></label>
+        <select id="credit-type" name="credit-type" required>
+            <option value="" disabled selected>-- Select an Option --</option>
+            <option value="merchandise">Merchandise</option>
+            <option value="timeshare">Timeshare</option>
+            <option value="service">Service</option>
+        </select>
+    </div>
 
-                <!-- Merchandise Section -->
-                <div id="merchandise-credit" class="credit-subsection" style="display: none;">
-                    <h4>Merchandise</h4>
-                    <label for="merchandise-details"><b>Was a credit voucher, voided transaction, receipt, or refund acknowledgment provided for the merchandise? If so, please specify which one.</b></label>
-                    <textarea id="merchandise-details" name="merchandise-details"></textarea>
-                    <label for="merchandise-details-2">
-                        What was the description of the purchased and/or returned item, and what was the reason for the return or cancellation?
-                      </label>
-                      <textarea id="merchandise-details-2" name="merchandise-details"></textarea>
-                      <label for="merchandise-details-3">
-                        Did you attempt to resolve the issue with the merchant, and were you informed of their return policy? If so, what was their response?
-                      </label>
-                      <textarea id="merchandise-details-3" name="merchandise-details"></textarea>
-                </div>
+    <!-- Merchandise Section -->
+    <div id="merchandise-credit" class="credit-subsection" style="display: none;">
+        <h4>Merchandise</h4>
+        <label for="merchandise-details-1"><b>Was a credit voucher, voided transaction, receipt, or refund acknowledgment provided for the merchandise? If so, please specify which one.</b></label>
+        <textarea id="merchandise-details-1" name="merchandise-details"></textarea>
+        <label for="merchandise-details-2"><b>What was the description of the purchased and/or returned item, and what was the reason for the return or cancellation?</b></label>
+        <textarea id="merchandise-details-2" name="merchandise-details"></textarea>
+        <label for="merchandise-details-3"><b>Did you attempt to resolve the issue with the merchant, and were you informed of their return policy? If so, what was their response?</b></label>
+        <textarea id="merchandise-details-3" name="merchandise-details"></textarea>
+    </div>
 
-                <!-- Timeshare Section -->
-                <div id="timeshare-credit" class="credit-subsection" style="display: none;">
-                    <h4>Timeshare</h4>
+    <!-- Timeshare Section -->
+    <div id="timeshare-credit" class="credit-subsection" style="display: none;">
+        <h4>Timeshare</h4>
 
-                    <!-- Textarea for describing purchase details -->
-                    <label for="timeshare-details"><b>Describe what was purchased as part of the timeshare agreement?</b></label>
-                    <textarea id="timeshare-details" name="timeshare-details"></textarea>
+        <!-- Textarea for describing purchase details -->
+        <label for="timeshare-details-1"><b>Describe what was purchased as part of the timeshare agreement?</b></label>
+        <textarea id="timeshare-details-1" name="timeshare-details"></textarea>
 
-                    <div class="timeshare-question">
-                        <p>Was the timeshare purchase canceled?</p>
-                    
-                        <div class="timeshare-option">
-                            <label for="timeshare-cancel-yes">Yes</label>
-                            <input type="checkbox" id="timeshare-cancel-yes" name="timeshare-cancel" value="yes">
-                        </div>
-                    
-                        <div class="timeshare-option">
-                            <label for="timeshare-cancel-no">No</label>
-                            <input type="checkbox" id="timeshare-cancel-no" name="timeshare-cancel" value="no">
-                        </div>
-                    </div>
-                    
-                    <div id="cancellation-date-section">
-                        <label for="timeshare-cancel-date">If so, what was the date of the cancellation?</label>
-                        <input type="date" id="timeshare-cancel-date" name="timeshare-cancel-date">
-                    </div>
+        <div class="timeshare-question">
+            <p>Was the timeshare purchase canceled?</p>
 
-                    <label for="timeshare-details"><b>Did you attempt to resolve the issue with the merchant? If so, what was their response?</b></label>
-                    <textarea id="timeshare-details" name="timeshare-details"></textarea>
-                </div>
-                   
-                <!-- Service Section -->
-                <div id="service-credit" class="credit-subsection" style="display: none;">
-                    <h4>Service</h4>
-                  
-                    <!-- Description of Services -->
-                    <label for="service-details-1">Describe the services to be provided:</label>
-                    <textarea id="service-details-1" name="service-details"></textarea>
-                  
-                    <!-- Credit Voucher, Voided Transaction Receipt, or Refund Acknowledgment -->
-                    <p>Was a credit voucher, voided transaction receipt, or refund acknowledgment provided?</p>
-                    <div class="service-option-group">
-                      <label for="service-credit-yes">Yes</label>
-                      <input type="checkbox" id="service-credit-yes" name="service-credit" value="yes">
-                  
-                      <label for="service-credit-no">No</label>
-                      <input type="checkbox" id="service-credit-no" name="service-credit" value="no">
-                    </div>
-
-                    <!-- Prompt to Attach Receipt -->
-                    <div id="receipt-upload-section" style="display: none;">
-                        <label for="service-receipt">Attach Receipt (if available):</label>
-                        <input type="file" id="service-receipt" name="service-receipt" accept=".jpg, .jpeg, .png, .pdf">
-                    </div>
-
-                    <!-- Service Cancellation Question -->
-                    <p><b>Was the service canceled?</b></p>
-                    <div class="service-option-group">
-                        <label for="service-cancel-yes">Yes</label>
-                        <input type="checkbox" id="service-cancel-yes" name="service-cancel" value="yes">
-
-                        <label for="service-cancel-no">No</label>
-                        <input type="checkbox" id="service-cancel-no" name="service-cancel" value="no">
-                    </div>
-
-                    <!-- Merchant Resolution Attempt -->
-                    <p><b>Did you attempt to resolve the issue with the merchant?</b></p>
-                    <div class="service-option-group">
-                        <label for="merchant-resolve-yes">Yes</label>
-                        <input type="checkbox" id="merchant-resolve-yes" name="merchant-resolve" value="yes">
-
-                        <label for="merchant-resolve-no">No</label>
-                        <input type="checkbox" id="merchant-resolve-no" name="merchant-resolve" value="no">
-                    </div>
-
-                    <!-- Merchant Contact Details -->
-                    <div id="merchant-contact-section" style="display: none;">
-                        <label for="merchant-contact-date">Date of Most Recent Contact:</label>
-                        <input type="date" id="merchant-contact-date" name="merchant-contact-date">
-
-                        <label for="merchant-contact-name">Name of Merchant Contact:</label>
-                        <input type="text" id="merchant-contact-name" name="merchant-contact-name">
-
-                        <label for="merchant-contact-method">Method of Contact:</label>
-                        <select id="merchant-contact-method" name="merchant-contact-method">
-                            <option value="">Select Method</option>
-                            <option value="phone">Phone</option>
-                            <option value="email">Email</option>
-                            <option value="in-person">In Person</option>
-                            <option value="other">Other</option>
-                        </select>
-
-                        <label for="merchant-response">Merchant's Response:</label>
-                        <textarea id="merchant-response" name="merchant-response"></textarea>
-                    </div>
-                </div>
+            <div class="timeshare-option">
+                <label for="timeshare-cancel-yes">Yes</label>
+                <input type="checkbox" id="timeshare-cancel-yes" name="timeshare-cancel" value="yes">
             </div>
+
+            <div class="timeshare-option">
+                <label for="timeshare-cancel-no">No</label>
+                <input type="checkbox" id="timeshare-cancel-no" name="timeshare-cancel" value="no">
+            </div>
+        </div>
+
+        <div id="cancellation-date-section">
+            <label for="timeshare-cancel-date">If so, what was the date of the cancellation?</label>
+            <input type="date" id="timeshare-cancel-date" name="timeshare-cancel-date">
+        </div>
+
+        <label for="timeshare-details-1"><b>Did you attempt to resolve the issue with the merchant? If so, what was their response?</b></label>
+        <textarea id="timeshare-details-1" name="timeshare-details"></textarea>
+    </div>
+
+    <!-- Service Section -->
+    <div id="service-credit" class="credit-subsection" style="display: none;">
+        <h4>Service</h4>
+
+        <!-- Description of Services -->
+        <label for="service-details-1"><b>Describe the services to be provided:</b></label>
+        <textarea id="service-details-1" name="service-details"></textarea>
+
+        <!-- Credit Voucher, Voided Transaction Receipt, or Refund Acknowledgment -->
+        <p><b>Was a credit voucher, voided transaction receipt, or refund acknowledgment provided?</b></p>
+        <div class="service-option-group">
+            <label for="service-credit-yes">Yes</label>
+            <input type="checkbox" id="service-credit-yes" name="service-credit" value="yes">
+
+            <label for="service-credit-no">No</label>
+            <input type="checkbox" id="service-credit-no" name="service-credit" value="no">
+        </div>
+
+        <!-- Prompt to Attach Receipt -->
+        <div id="receipt-upload-section" style="display: none;">
+            <label for="service-receipt">Attach Receipt (if available):</label>
+            <input type="file" id="service-receipt" name="service-receipt" accept=".jpg, .jpeg, .png, .pdf">
+        </div>
+
+        <!-- Service Cancellation Question -->
+        <p><b>Was the service canceled?</b></p>
+        <div class="service-option-group">
+            <label for="service-cancel-yes">Yes</label>
+            <input type="checkbox" id="service-cancel-yes" name="service-cancel" value="yes">
+
+            <label for="service-cancel-no">No</label>
+            <input type="checkbox" id="service-cancel-no" name="service-cancel" value="no">
+        </div>
+
+        <!-- Merchant Resolution Attempt -->
+        <p><b>Did you attempt to resolve the issue with the merchant?</b></p>
+        <div class="service-option-group">
+            <label for="merchant-resolve-yes">Yes</label>
+            <input type="checkbox" id="merchant-resolve-yes" name="merchant-resolve" value="yes">
+
+            <label for="merchant-resolve-no">No</label>
+            <input type="checkbox" id="merchant-resolve-no" name="merchant-resolve" value="no">
+        </div>
+
+        <!-- Merchant Contact Details -->
+        <div id="merchant-contact-section" style="display: none;">
+            <label for="merchant-contact-date">Date of Most Recent Contact:</label>
+            <input type="date" id="merchant-contact-date" name="merchant-contact-date">
+
+            <label for="merchant-contact-name">Name of Merchant Contact:</label>
+            <input type="text" id="merchant-contact-name" name="merchant-contact-name">
+
+            <label for="merchant-contact-method">Method of Contact:</label>
+            <select id="merchant-contact-method" name="merchant-contact-method">
+                <option value="">Select Method</option>
+                <option value="phone">Phone</option>
+                <option value="email">Email</option>
+                <option value="in-person">In Person</option>
+                <option value="other">Other</option>
+            </select>
+
+            <label for="merchant-response">Merchant's Response:</label>
+            <textarea id="merchant-response" name="merchant-response"></textarea>
+        </div>
+    </div>
+</div>
 
 
 <!-- Completed This Transaction with Another Form of Payment Section -->
