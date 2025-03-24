@@ -991,11 +991,11 @@
         <button type="submit">Submit</button>
     </form>
     </div>
-    <script src="All.js"></script>
-    <script>
+<script src="All.js"></script>
+        <script>
         const urlParams = new URLSearchParams(window.location.search);
         const status = urlParams.get('status');
-    
+
         if (status === 'success') {
                 alert("Form submitted successfully! A confirmation email has been sent.");
          } else if (status === 'required_fields') {
