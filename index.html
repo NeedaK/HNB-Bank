@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>National Bank Dispute Form</title>
-    <style>src="Dispute_Styles.css"<style>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -554,8 +553,9 @@
             <label for="dateError"><b>Awareness of the Error Date:</b></label>
             <input type="date" id="dateError" name="dateError" required>
 
-            <label><b>How was this dispute sent?</b></label> <!-- How was this dispute sent in by the customer  -->
-            <div class="checkbox-group">
+            <label>How was this dispute sent?</label>
+                <!-- How was this dispute sent in by the customer -->
+                <div class="checkbox-group">
                 <label for="contactInPerson">In Person</label>
                 <input type="checkbox" id="contactInPerson" name="contactInPerson" value="Person">
                 <label for="contactEmailMethod">Email</label>
@@ -564,7 +564,7 @@
                 <input type="checkbox" id="contactOnline" name="contactOnline" value="Online">
                 <label for="contactTelephone">Telephone</label>
                 <input type="checkbox" id="contactTelephone" name="contactTelephone" value="Tele">
-            </div>
+                </div>
 
             <!-- EMV Chip Card Section -->
             <div class="emv-container">
@@ -835,10 +835,14 @@
                     <h4>Merchandise</h4>
                     <label for="merchandise-details"><b>Was a credit voucher, voided transaction, receipt, or refund acknowledgment provided for the merchandise? If so, please specify which one.</b></label>
                     <textarea id="merchandise-details" name="merchandise-details"></textarea>
-                    <label for="merchandise-details-2"><b>What was the description of the purchased and/or returned item, and what was the reason for the return or cancellation?</b></label>
-                    <textarea id="merchandise-details-2" name="merchandise-details"></textarea>
-                    <label for="merchandise-details-3"><b>Did you attempt to resolve the issue with the merchant, and were you informed of their return policy? If so, what was their response?</b></label>
-                    <textarea id="merchandise-details-3" name="merchandise-details"></textarea>
+                    <label for="merchandise-details-2">
+                        What was the description of the purchased and/or returned item, and what was the reason for the return or cancellation?
+                      </label>
+                      <textarea id="merchandise-details-2" name="merchandise-details"></textarea>
+                      <label for="merchandise-details-3">
+                        Did you attempt to resolve the issue with the merchant, and were you informed of their return policy? If so, what was their response?
+                      </label>
+                      <textarea id="merchandise-details-3" name="merchandise-details"></textarea>
                 </div>
 
                 <!-- Timeshare Section -->
@@ -875,19 +879,19 @@
                 <!-- Service Section -->
                 <div id="service-credit" class="credit-subsection" style="display: none;">
                     <h4>Service</h4>
-
+                  
                     <!-- Description of Services -->
-                    <label for="service-details-1"><b>Describe the services to be provided:</b></label>
+                    <label for="service-details-1">Describe the services to be provided:</label>
                     <textarea id="service-details-1" name="service-details"></textarea>
-
+                  
                     <!-- Credit Voucher, Voided Transaction Receipt, or Refund Acknowledgment -->
-                    <p><b>Was a credit voucher, voided transaction receipt, or refund acknowledgment provided?</b></p>
+                    <p>Was a credit voucher, voided transaction receipt, or refund acknowledgment provided?</p>
                     <div class="service-option-group">
-                        <label for="service-credit-yes">Yes</label>
-                        <input type="checkbox" id="service-credit-yes" name="service-credit" value="yes">
-
-                        <label for="service-credit-no">No</label>
-                        <input type="checkbox" id="service-credit-no" name="service-credit" value="no">
+                      <label for="service-credit-yes">Yes</label>
+                      <input type="checkbox" id="service-credit-yes" name="service-credit" value="yes">
+                  
+                      <label for="service-credit-no">No</label>
+                      <input type="checkbox" id="service-credit-no" name="service-credit" value="no">
                     </div>
 
                     <!-- Prompt to Attach Receipt -->
