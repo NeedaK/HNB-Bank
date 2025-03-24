@@ -1,5 +1,3 @@
-
-//Phone Number Validation and Formatting
 document.addEventListener("DOMContentLoaded", function () {
     // Auto-format for Phone Number (XXX) XXX-XXXX
     document.getElementById("phone").addEventListener("input", function (event) {
@@ -19,15 +17,25 @@ document.addEventListener("DOMContentLoaded", function () {
         event.target.value = formattedInput;
     });
 
-// Auto-format for Debit Card Number #### #### #### #### (Limit to 16 digits)
+    // Auto-format for Debit Card Number #### #### #### #### (Limit to 16 digits)
     document.getElementById("debitCard").addEventListener("input", function (event) {
         let input = event.target.value.replace(/\D/g, ""); // Remove non-numeric characters
 
         if (input.length > 16) {
             input = input.substring(0, 16); // Limit to 16 digits
         }
+        // Add spaces every 4 digits
+        let formattedInput = "";
+        for (let i = 0; i < input.length; i++) {
+            if (i > 0 && i % 4 === 0) {
+                formattedInput += " ";
+            }
+            formattedInput += input[i];
+        }
+        event.target.value = formattedInput;
     });
-// Add a new transaction row
+
+    // Add a new transaction row
     const transactionContainer = document.getElementById("transactions-container");
     const addTransactionButton = document.getElementById("add-transaction");
 
@@ -40,9 +48,9 @@ document.addEventListener("DOMContentLoaded", function () {
             newRow.classList.add("transaction-row");
 
             newRow.innerHTML = `
-                <input type="text" class="merchant-name" placeholder="Merchant Name">
-                <input type="number" class="transaction-amount" placeholder="$0.00" min="0" step="0.01">
-                <input type="date" class="transaction-date">
+                <input type="text" class="merchant-name" name="merchant-name[]" placeholder="Merchant Name">
+                <input type="number" class="transaction-amount" name="transaction-amount[]" placeholder="$0.00" min="0" step="0.01">
+                <input type="date" class="transaction-date" name="transaction-date[]">
                 <button type="button" class="remove-transaction">X</button>
             `;
 
@@ -55,13 +63,15 @@ document.addEventListener("DOMContentLoaded", function () {
             alert("You can only add up to 20 transactions.");
         }
     });
-// Remove transaction row
+
+    // Remove transaction row
     document.addEventListener("click", function (event) {
         if (event.target.classList.contains("remove-transaction")) {
             event.target.parentElement.remove();
         }
     });
-//Currency Formatting Function in Tranaction's Field
+
+    //Currency Formatting Function in Transaction's Field
     function formatCurrency(input) {
         // Remove any non-numeric characters
         let value = input.value.replace(/\D/g, "");
@@ -74,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         let numValue = parseFloat(value) / 100; // Convert to dollars (e.g., 1050 -> 10.50)
 
-    // Format as currency
+        // Format as currency
         input.value = `$${numValue.toFixed(2)}`;
     }
 
@@ -92,28 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // Submittion For Required Fields and Validations
-    document.getElementById("disputeForm").addEventListener("submit", function (event) {
-        event.preventDefault();
-        
-        let name = document.getElementById("name").value;
-        let email = document.getElementById("email").value;
-        let debitCard = document.getElementById("debitCard").value.replace(/\s/g, ""); // Remove spaces for validation
-        let contactMethod = document.querySelector('input[name="contactMethod"]:checked');
-
-        if (name.trim() === "" || email.trim() === "") {
-            alert("Please fill in all required fields.");
-        } else if (debitCard.length !== 16) {
-            alert("Please enter a valid 16-digit debit card number.");
-        } else if (!contactMethod) {
-            alert("Please select a Preferred Contact Method (Email or Mail).");
-        } else {
-            alert("Dispute Form Submitted Successfully!");
-            this.reset();
-        }
-    });
-
-//Not Received Merchandise Section (Initially Hidden)
+    //Not Received Merchandise Section (Initially Hidden)
     const disputeReason = document.getElementById("dispute-reason"); // The dropdown or selection field
     const notReceivedSection = document.getElementById("not-received-merchandise-section");
 
@@ -140,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const otherLocationRadio = document.getElementById("other-location-radio");
     const otherLocationText = document.getElementById("other-location");
 
-    otherLocationRadio.addEventListener("change", function() {
+    otherLocationRadio.addEventListener("change", function () {
         otherLocationText.style.display = this.checked ? "block" : "none";
     });
 
@@ -171,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Initial setup: hide the resolution details and no-resolution reason divs
     handleMerchResolutionAttemptChange();
 
-//Not Received Service Section (Initially Hidden)
+    //Not Received Service Section (Initially Hidden)
     const disputeReasonService = document.getElementById("dispute-reason");
     const notReceivedServiceSection = document.getElementById("not-received-service-section");
     const serviceResolveYes = document.getElementById("service-resolve-yes");
@@ -200,7 +189,7 @@ document.addEventListener("DOMContentLoaded", function () {
         serviceResolveDetails.style.display = "none"; // Hide resolution details if "No" is selected
     });
 
-//Recurring Charge Cancelled Section (Initially Hidden)
+    //Recurring Charge Cancelled Section (Initially Hidden)
     const disputeReasonCancelled = document.getElementById("dispute-reason");
     const recurringChargeCancelledSection = document.getElementById("recurring-charge-cancelled-section");
 
@@ -213,7 +202,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-// Not Satisfied with Merchandise or Service Section (Initially Hidden)
+    // Not Satisfied with Merchandise or Service Section (Initially Hidden)
     const disputeReasonSatisfied = document.getElementById("dispute-reason");
     const notSatisfiedSection = document.getElementById("not-satisfied-section");
     const notSatisfiedMerchandise = document.getElementById("not-satisfied-merchandise");
@@ -241,7 +230,7 @@ document.addEventListener("DOMContentLoaded", function () {
         merchandiseSection.style.display = "none";
     });
 
-//Overcharged or Incorrect Charge Section (Initially Hidden)
+    //Overcharged or Incorrect Charge Section (Initially Hidden)
     const disputeReasonOvercharged = document.getElementById("dispute-reason");
     const overchargedSection = document.getElementById("overcharged-section");
     const overchargedAmount = document.getElementById("overcharged-amount");
@@ -264,7 +253,7 @@ document.addEventListener("DOMContentLoaded", function () {
         event.target.value = `$${value}`;
     });
 
-//Charged Twice for the Same Transaction Section (Initially Hidden)
+    //Charged Twice for the Same Transaction Section (Initially Hidden)
     const disputeReasonCharged = document.getElementById("dispute-reason");
     const chargedTwiceSection = document.getElementById("charged-twice-section");
     const chargedTwiceAmount = document.getElementById("charged-twice-amount");
@@ -287,7 +276,7 @@ document.addEventListener("DOMContentLoaded", function () {
         event.target.value = `$${value}`;
     });
 
-//Expecting a Credit from the Merchant Section (Initially Hidden)
+    //Expecting a Credit from the Merchant Section (Initially Hidden)
     const disputeReasonCredit = document.getElementById("dispute-reason");
     const expectingCreditSection = document.getElementById("expecting-credit-section");
     const creditType = document.getElementById("credit-type");
@@ -385,7 +374,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     }
-//Completed This Transaction with Another Form of Payment Section
+    //Completed This Transaction with Another Form of Payment Section
     const disputeReasonSelect = document.getElementById("dispute-reason");
     const paymentSection = document.getElementById("completed-other-payment-section");
     const resolveAttemptSelect = document.getElementById("payment-resolve-attempt");
@@ -418,12 +407,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 toggleVisibility(resolveYesDiv, false);
                 toggleVisibility(resolveNoDiv, false);
             }
-        });
-    }
-
-    if (paymentMethodSelect) {
-        paymentMethodSelect.addEventListener("change", function () {
-            toggleVisibility(proofUploadDiv, this.value !== ""); // Show if a valid payment method is selected
         });
     }
 });
