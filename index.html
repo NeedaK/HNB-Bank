@@ -4,8 +4,517 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>National Bank Dispute Form</title>
-    <link rel="stylesheet" href="Dispute_Styles.css"> <!-- Link to External CSS File -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #004d25;
+            margin: 0;
+            padding: 0;
+        }
 
+        .container {
+            max-width: 700px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            width: 70%; /* Adjust width as needed */
+        }
+
+        /* Updated Title Section Styles */
+        .title-container {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start; /* Align to the left */
+            gap: 5px; /* Space between logo and text */
+            margin-bottom: 10px;
+        }
+
+        .logo {
+            width: 50px; /* Adjust logo size */
+            height: auto;
+            margin: 0; /* Added margin reset */
+        }
+
+        h2 {
+            text-align: left;
+            color: #333;
+            margin: 0;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 0; /* Added margin reset */
+        }
+
+        /* Apply consistent padding to textboxes, textareas, and selects */
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="date"],
+        textarea,
+        select {
+            width: calc(100% - 20px); /* Ensure padding doesn't affect width */
+            padding: 8px;  /* Consistent padding */
+            margin: 5px 0; /* Uniform right margin */
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;  /* Include padding in width */
+        }
+        /*Specific Disputeform input padding*/
+        .disputeForm input {
+            width: calc(100% - 20px); /* Ensure padding doesn't affect width */
+            padding: 8px;  /* Consistent padding */
+            margin: 5px 0; /* Uniform right margin */
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;  /* Include padding in width */
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+            padding: 10px;
+            background: #004d25;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 0;/* Added margin reset */
+        }
+
+        button:hover {
+            background: #013219;
+        }
+
+        .checkbox-group {
+            display: flex;
+            justify-content: center;  /* Center horizontally */
+            align-items: center; /* Center vertically */
+            gap: 10px;  /* Increased spacing between answers */
+            margin: 10px auto; /* Added margin for spacing and centering */
+            max-width: 80%; /* Limit the maximum width */
+        }
+
+        .checkbox-item {
+            display: flex;
+            flex-direction: column; /* Stack label on top of checkbox */
+            align-items: center; /* Center align text with checkbox */
+            text-align: center;
+            gap: 3px !important; /* Adjust spacing between text and checkbox */
+            white-space: nowrap;
+            margin: 0; /* Added margin reset */
+        }
+
+
+        .checkbox-item label {
+            margin-bottom: 1px; /* Space between label and checkbox */
+            color: #004d25;
+        }
+
+        .emv-container {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            border-radius: 5px;
+            width: fit-content;
+            white-space: nowrap; /* Prevent text from wrapping */
+            margin: 0; /* Added margin reset */
+        }
+
+        .emv-label {
+            font-weight: bold;
+            margin-right: 5px;
+            color: #696969;
+            margin: 0; /* Added margin reset */
+        }
+        #emvChipCard {
+            cursor: not-allowed; /* Show that the checkbox is disabled */
+            margin: 0; /* Added margin reset */
+        }
+
+        /* Type of Loss */
+        .loss-note {
+            color: red;
+            font-style: italic;
+            font-size: 14px;
+            margin-bottom: 5px;
+            margin-top: 0; /* Added margin reset */
+        }
+
+
+        /* Transactions Section */
+        #transactions-container {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin: 0; /* Added margin reset */
+        }
+
+        .transaction-row {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            width: 100%;
+            margin: 0; /* Added margin reset */
+        }
+
+        .transaction-row input {
+            padding: 6px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            text-align: left; /* Align placeholder text to the left */
+            height: 20px; /* Ensures all input fields have the same height */
+            flex: 1; /* Makes all fields equal width */
+            min-width: 150px;
+            margin: 0; /* Added margin reset */
+        }
+
+        .transaction-row .merchant-name { /* Set specific widths for each input field */
+            flex: 2;
+            min-width: 200px;
+            margin: 0; /* Added margin reset */
+        }
+
+        .transaction-row .transaction-amount {
+            flex: 1;
+            min-width: 100px;
+            text-align: left;
+            margin: 0; /* Added margin reset */
+        }
+
+        .transaction-row .transaction-date {
+            flex: 1;
+            min-width: 140px;
+            margin: 0; /* Added margin reset */
+        }
+
+        .transaction-row button { /* Reduce the size of the delete (X) button */
+            background: red;
+            color: darkred;
+            border: 1px solid #ccc;
+            padding: 2px 4px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            width: 20px; /* Reduced width */
+            height: 20px; /* Reduced height */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin: 0; /* Added margin reset */
+        }
+
+        .transaction-row button:hover {
+            background: #e0e0e0;
+        }
+
+        /* "Add Another Transaction" Link */
+        #add-transaction {
+            color: green;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0; /* Added margin reset */
+        }
+
+        #add-transaction:hover {
+            text-decoration: underline;
+        }
+
+        /* Dispute Reason Dropdown */
+        .dispute-reason {
+            margin: 5px 0;
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        /* Submit Button */
+        .submit-button {
+            background: darkgreen;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 0; /* Added margin reset */
+        }
+
+        .submit-button:hover {
+            background: green;
+        }
+        /* Align radio buttons properly */
+        /* Ensure the radio buttons and labels align properly */
+        .radio-options {
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Align items from the start */
+            gap: 10px; /* Increased spacing between radio button options */
+            margin: 10px 0; /* Added top and bottom margin */
+        }
+
+        .radio-options label {
+            display: flex;
+            align-items: center;
+            gap: 1px; /* Reduced spacing between the radio button and the label text */
+            white-space: nowrap; /* Prevent wrapping */
+        }
+
+        .radio-options input[type="radio"] {
+            transform: scale(1.1); /* Slightly enlarge for visibility */
+            margin: 0; /* Added margin reset */
+        }
+
+        /* Ensure spacing between questions */
+        .question-field {
+            display: flex;
+            flex-direction: column;
+            margin: 0; /* Added margin reset */
+        }
+
+        /* Style required fields */
+        .required {
+            color: red;
+        }
+
+        /* Hide dependent fields initially */
+        #other-location,
+        #resolve-details,
+        #no-resolution-reason {
+            display: none;
+        }
+        /* Ensure spacing between questions */
+        .question-field {
+            margin-bottom: 5px;
+            display: flex;
+            flex-direction: column;
+            margin-top: 0;
+        }
+
+        /* Style required fields */
+        .required {
+            color: red;
+        }
+
+        /* Hide section initially */
+        #recurring-charge-cancelled-section {
+            display: none;
+        }
+        /* Ensure spacing between questions */
+        .question-field {
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            margin-top: 0;
+        }
+
+        /* Style required fields */
+        .required {
+            color: red;
+        }
+
+        /* Hide dependent fields initially */
+        #not-satisfied-merchandise-section,
+        #not-satisfied-service-section,
+        #not-satisfied-section {
+            display: none;
+        }
+
+        /* Align radio buttons properly */
+        .radio-options {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        /* Ensure spacing between questions */
+        .question-field {
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            margin-top: 0;
+        }
+
+        /* Style required fields */
+        .required {
+            color: red;
+        }
+
+        /* Hide section initially */
+        #overcharged-section {
+            display: none;
+        }
+
+        /* Style input field */
+        input[type="text"], input[type="file"] {
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        /* Style the auto-email message */
+        p {
+            font-style: italic;
+            font-size: 14px;
+            color: #555;
+            margin: 5px 0;
+        }
+
+        /* Ensure spacing between questions */
+        .question-field {
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            margin-top: 0;
+        }
+
+        /* Style required fields */
+        .required {
+            color: red;
+        }
+
+        /* Hide section initially */
+        #charged-twice-section {
+            display: none;
+        }
+
+        /* Style input fields */
+        input[type="text"], input[type="date"] {
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        /* Ensure spacing between questions */
+        .question-field {
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            margin-top: 0;
+        }
+
+        /* Style required fields */
+        .required {
+            color: red;
+        }
+
+        /* Hide sections initially */
+        #expecting-credit-section, .credit-subsection {
+            display: none;
+        }
+
+        /* Ensure spacing between questions */
+        .question-field {
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            margin-top: 0;
+        }
+
+        /* Style required fields */
+        .required {
+            color: red;
+        }
+
+        /* Hide sections initially */
+        #completed-other-payment-section, .resolve-subsection, .proof-subsection {
+            display: none;
+        }
+
+        /* Style dropdowns and textareas */
+        select, textarea, input[type="file"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        /* Container for the question */
+        .timeshare-question {
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            gap: 50px; /* Adjust spacing between elements */
+            margin-top: 15px;
+        }
+
+        /* Style for the question label */
+        .timeshare-question p {
+            font-weight: bold;
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        /* Ensure each checkbox with its label is aligned properly */
+        .timeshare-option {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Make checkboxes slightly larger for better visibility */
+        .timeshare-option input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        /* Cancellation date section */
+        #cancellation-date-section {
+            display: none;
+            margin-top: 10px;
+        }
+
+        label {
+            font-weight: 500;
+        }
+        /* Styling the service-option-group */
+        .service-option-group {
+            display: flex;
+            align-items: center;
+            gap: 15px; /* Add space between Yes/No options */
+            margin-bottom: 5px; /* Add some spacing below each question */
+        }
+
+        .service-option-group label {
+            margin-right: 5px; /* Add space between checkbox and label */
+            display: inline-block;  /* force elements to sit on same line */
+        }
+
+        /* Specific styles for the service section */
+        #service-credit {
+            padding: 10px; /* Add padding around the entire section */
+        }
+        /*Ensure consistent font */
+        #not-satisfied-merchandise-section h4,
+        #not-satisfied-service-section h4 {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg viewBox="0 0 12 6" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M10.293 0.293L6 4.586L1.707 0.293L0.293 1.707L6 7.293L11.707 1.707L10.293 0.293Z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 0.65rem auto;
+            padding-right: 2rem;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -14,7 +523,7 @@
             <h2>HNB Bank</h2>
         </div>
         
-        <form id="disputeForm" action="Dispute_Email.php" method="POST"> <!-- Added Action Attribute -->
+        <form action="Dispute_Email.php" method="POST">
             <label for="name"><b>Name/Business Name:</b></label> <!-- Name/Business Name Section-->
             <input type="text" id="name" name="name" required> <!-- Box to type in information-->
 
@@ -47,13 +556,13 @@
             <label><b>How was this dispute sent?</b></label> <!-- How was this dispute sent in by the customer  -->
             <div class="checkbox-group">
                 <label for="contactInPerson">In Person</label>
-                <input type="checkbox" id="contactInPerson" name="contactMethod" value="Person">
+                <input type="checkbox" id="contactInPerson" name="contactInPerson" value="Person">
                 <label for="contactEmailMethod">Email</label>
-                <input type="checkbox" id="contactEmailMethod" name="contactMethod" value="Email">
+                <input type="checkbox" id="contactEmailMethod" name="contactEmailMethod" value="Email">
                 <label for="contactOnline">Online</label>
-                <input type="checkbox" id="contactOnline" name="contactMethod" value="Online">
+                <input type="checkbox" id="contactOnline" name="contactOnline" value="Online">
                 <label for="contactTelephone">Telephone</label>
-                <input type="checkbox" id="contactTelephone" name="contactMethod" value="Tele">
+                <input type="checkbox" id="contactTelephone" name="contactTelephone" value="Tele">
             </div>
 
             <!-- EMV Chip Card Section -->
@@ -325,10 +834,10 @@
                     <h4>Merchandise</h4>
                     <label for="merchandise-details"><b>Was a credit voucher, voided transaction, receipt, or refund acknowledgment provided for the merchandise? If so, please specify which one.</b></label>
                     <textarea id="merchandise-details" name="merchandise-details"></textarea>
-                    <label for="merchandise-details"><b>What was the description of the purchased and/or returned item, and what was the reason for the return or cancellation?</b></label>
-                    <textarea id="merchandise-details" name="merchandise-details"></textarea>
-                    <label for="merchandise-details"><b>Did you attempt to resolve the issue with the merchant, and were you informed of their return policy? If so, what was their response?</b></label>
-                    <textarea id="merchandise-details" name="merchandise-details"></textarea>
+                    <label for="merchandise-details-2"><b>What was the description of the purchased and/or returned item, and what was the reason for the return or cancellation?</b></label>
+                    <textarea id="merchandise-details-2" name="merchandise-details"></textarea>
+                    <label for="merchandise-details-3"><b>Did you attempt to resolve the issue with the merchant, and were you informed of their return policy? If so, what was their response?</b></label>
+                    <textarea id="merchandise-details-3" name="merchandise-details"></textarea>
                 </div>
 
                 <!-- Timeshare Section -->
@@ -367,8 +876,8 @@
                     <h4>Service</h4>
 
                     <!-- Description of Services -->
-                    <label for="service-details"><b>Describe the services to be provided:</b></label>
-                    <textarea id="service-details" name="service-details"></textarea>
+                    <label for="service-details-1"><b>Describe the services to be provided:</b></label>
+                    <textarea id="service-details-1" name="service-details"></textarea>
 
                     <!-- Credit Voucher, Voided Transaction Receipt, or Refund Acknowledgment -->
                     <p><b>Was a credit voucher, voided transaction receipt, or refund acknowledgment provided?</b></p>
@@ -478,8 +987,28 @@
                     </div>
                 </div>
         <button type="submit">Submit</button>
-        </form>
+    </form>
     </div>
-    <script src="ALL.js"></script> 
+    <script src="All.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const status = urlParams.get('status');
+    
+        if (status === 'success') {
+                alert("Form submitted successfully! A confirmation email has been sent.");
+         } else if (status === 'required_fields') {
+                alert("Please fill in all required fields.");
+          } else if (status === 'invalid_debitCard') {
+                alert("Please enter a valid 16-digit debit card number.");
+         } else if (status === 'no_contactMethod') {
+                alert("Please select a Preferred Contact Method (Email or Mail).");
+        }
+        
+        
+        </script>
+</body>
+</html>
+</body>
+</html> 
 </body>
 </html>
