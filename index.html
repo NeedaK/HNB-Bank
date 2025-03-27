@@ -615,13 +615,13 @@
 
                 <!-- Required Fields -->
                 <div class="question-field">
-                    <label for="describe-merchandise"><strong>I. Describe merchandise or ticket ordered:</strong> <span class="required">*</span></label>
-                    <input type="text" id="describe-merchandise" name="describe-merchandise" required>
+                    <label for="describe-merchandise"><strong>I. Describe merchandise or ticket ordered:</strong></label>
+                    <input type="text" id="describe-merchandise" name="describe-merchandise">
                 </div>
 
                 <div class="question-field">
-                    <label for="expected-date"><strong>II. Date of expected receipt:</strong> <span class="required">*</span></label>
-                    <input type="date" id="expected-date" name="expected-date" required>
+                    <label for="expected-date"><strong>II. Date of expected receipt:</strong></label>
+                    <input type="date" id="expected-date" name="expected-date">
                 </div>
 
                 <!-- Not Required: Agreed Location -->
@@ -679,13 +679,13 @@
 
                 <!-- Required Fields -->
                 <div class="question-field">
-                    <label for="describe-service"><strong>I. Describe services ordered:</strong> <span class="required">*</span></label>
-                    <input type="text" id="describe-service" name="describe-service" required>
+                    <label for="describe-service"><strong>I. Describe services ordered:</strong></label>
+                    <input type="text" id="describe-service" name="describe-service">
                 </div>
 
                 <div class="question-field">
-                    <label for="expected-service-date"><strong>II. Date of expected receipt:</strong> <span class="required">*</span></label>
-                    <input type="date" id="expected-service-date" name="expected-service-date" required>
+                    <label for="expected-service-date"><strong>II. Date of expected receipt:</strong></span></label>
+                    <input type="date" id="expected-service-date" name="expected-service-date">
                 </div>
 
                 <!-- Not Required: Service Cancelled -->
@@ -728,13 +728,13 @@
 
                 <!-- Required Fields -->
                 <div class="question-field">
-                    <label for="cancellation-date"><strong>a) Cancellation date:</strong> <span class="required">*</span></label>
-                    <input type="date" id="cancellation-date" name="cancellation-date" required>
+                    <label for="cancellation-date"><strong>a) Cancellation date:</strong></label>
+                    <input type="date" id="cancellation-date" name="cancellation-date">
                 </div>
 
                 <div class="question-field">
-                    <label for="contact-method"><strong>Date and method of contact:</strong> <span class="required">*</span></label>
-                    <input type="text" id="contact-method" name="contact-method" placeholder="Enter date and method of contact" required>
+                    <label for="contact-method"><strong>Date and method of contact:</strong></label>
+                    <input type="text" id="contact-method" name="contact-method" placeholder="Enter date and method of contact">
                 </div>
             </div>
 
@@ -787,8 +787,8 @@
 
                 <!-- Required Field for Amount on Sales Receipt -->
                 <div class="question-field">
-                    <label for="overcharged-amount"><strong>Please provide the amount on your sales receipt:</strong> <span class="required">*</span></label>
-                    <input type="text" id="overcharged-amount" name="overcharged-amount" placeholder="Enter amount ($0.00)" required>
+                    <label for="overcharged-amount"><strong>Please provide the amount on your sales receipt:</strong></span></label>
+                    <input type="text" id="overcharged-amount" name="overcharged-amount" placeholder="Enter amount ($0.00)">
                 </div>
 
                 <!-- Upload Sales Receipt -->
@@ -804,14 +804,14 @@
 
                 <!-- Required Field: Transaction Amount -->
                 <div class="question-field">
-                    <label for="charged-twice-amount"><strong>a) What was the transaction amount?</strong> <span class="required">*</span></label>
-                    <input type="text" id="charged-twice-amount" name="charged-twice-amount" placeholder="Enter amount ($0.00)" required>
+                    <label for="charged-twice-amount"><strong>a) What was the transaction amount?</strong</span></label>
+                    <input type="text" id="charged-twice-amount" name="charged-twice-amount" placeholder="Enter amount ($0.00)">
                 </div>
 
                 <!-- Required Field: Transaction Date -->
                 <div class="question-field">
-                    <label for="charged-twice-date"><strong>b) What was the transaction date?</strong> <span class="required">*</span></label>
-                    <input type="date" id="charged-twice-date" name="charged-twice-date" required>
+                    <label for="charged-twice-date"><strong>b) What was the transaction date?</strong></label>
+                    <input type="date" id="charged-twice-date" name="charged-twice-date">
                 </div>
             </div>
 
@@ -821,9 +821,8 @@
 
     <!-- Required: Select Information Type -->
     <div class="question-field">
-        <label for="credit-type"><strong>a) Select the type of purchase: Merchandise, Timeshare, or Service.</strong>
-            <span class="required">*</span></label>
-        <select id="credit-type" name="credit-type" required>
+        <label for="credit-type"><strong>a) Select the type of purchase: Merchandise, Timeshare, or Service.</strong></label>
+        <select id="credit-type" name="credit-type">
             <option value="" disabled selected>-- Select an Option --</option>
             <option value="merchandise">Merchandise</option>
             <option value="timeshare">Timeshare</option>
@@ -847,8 +846,8 @@
         <h4>Timeshare</h4>
 
         <!-- Textarea for describing purchase details -->
-        <label for="timeshare-details-1"><b>Describe what was purchased as part of the timeshare agreement?</b></label>
-        <textarea id="timeshare-details-1" name="timeshare-details"></textarea>
+        <label for="timeshare-details"><b>Describe what was purchased as part of the timeshare agreement?</b></label>
+        <textarea id="timeshare-details" name="timeshare-details"></textarea>
 
         <div class="timeshare-question">
             <p>Was the timeshare purchase canceled?</p>
@@ -947,9 +946,8 @@
 
                     <!-- Required: Did the cardholder attempt to resolve the issue? -->
                     <div class="question-field">
-                        <label><strong>Did the cardholder attempt to resolve the issue with the merchant?</strong> <span
-                                class="required">*</span></label>
-                        <select id="payment-resolve-attempt" name="resolve-attempt" required>
+                        <label><strong>Did the cardholder attempt to resolve the issue with the merchant?</strong></label>
+                        <select id="payment-resolve-attempt" name="resolve-attempt">
                             <option value="" disabled selected>-- Select an Option --</option>
                             <option value="yes">Yes</option>
                             <option value="no">No</option>
