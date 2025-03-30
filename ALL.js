@@ -35,72 +35,81 @@ document.addEventListener("DOMContentLoaded", function () {
         event.target.value = formattedInput;
     });
 
-    // Add a new transaction row
-    const transactionContainer = document.getElementById("transactions-container");
-    const addTransactionButton = document.getElementById("add-transaction");
+// Add a new transaction row
+const transactionContainer = document.getElementById("transactions-container");
+const addTransactionButton = document.getElementById("add-transaction");
 
-    addTransactionButton.addEventListener("click", function (event) {
-        event.preventDefault(); // Prevent link from navigating
+addTransactionButton.addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent link from navigating
 
-        const transactionRows = document.querySelectorAll(".transaction-row");
-        if (transactionRows.length < 20) {
-            const newRow = document.createElement("div");
-            newRow.classList.add("transaction-row");
+    const transactionRows = document.querySelectorAll(".transaction-row");
+    if (transactionRows.length < 20) {
+        const newRow = document.createElement("div");
+        newRow.classList.add("transaction-row");
 
-            newRow.innerHTML = `
-                <input type="text" class="merchant-name" name="merchant-name[]" placeholder="Merchant Name">
-                <input type="number" class="transaction-amount" name="transaction-amount[]" placeholder="$0.00" min="0" step="0.01">
-                <input type="date" class="transaction-date" name="transaction-date[]">
-                <button type="button" class="remove-transaction">X</button>
-            `;
+        newRow.innerHTML = `
+            <input type="text" class="merchant-name" name="merchant-name[]" placeholder="Merchant Name">
+            <input type="number" class="transaction-amount" name="transaction-amount[]" placeholder="0.00" min="0" step="0.01">
+            <input type="date" class="transaction-date" name="transaction-date[]">
+            <button type="button" class="remove-transaction">X</button>
+        `;
 
-            transactionContainer.appendChild(newRow);
+        transactionContainer.appendChild(newRow);
 
-            newRow.querySelector(".remove-transaction").addEventListener("click", function () {
-                newRow.remove();
-            });
-        } else {
-            alert("You can only add up to 20 transactions.");
-        }
-    });
+        // Attach event listener to the new transaction amount input for formatting
+        const amountInput = newRow.querySelector(".transaction-amount");
+        amountInput.addEventListener("input", formatCurrency);  // Apply function
 
-    // Remove transaction row
-    document.addEventListener("click", function (event) {
-        if (event.target.classList.contains("remove-transaction")) {
-            event.target.parentElement.remove();
-        }
-    });
-
-    //Currency Formatting Function in Transaction's Field
-    function formatCurrency(input) {
-        // Remove any non-numeric characters
-        let value = input.value.replace(/\D/g, "");
-
-        // Convert value to cents, ensuring at least two digits
-        if (value.length === 0) {
-            input.value = "$0.00";
-            return;
-        }
-
-        let numValue = parseFloat(value) / 100; // Convert to dollars (e.g., 1050 -> 10.50)
-
-        // Format as currency
-        input.value = `$${numValue.toFixed(2)}`;
+        newRow.querySelector(".remove-transaction").addEventListener("click", function () {
+            newRow.remove();
+        });
+    } else {
+        alert("You can only add up to 20 transactions.");
     }
+});
 
-    document.querySelectorAll(".transaction-amount").forEach(input => {
-        // Format the value as the user types
-        input.addEventListener("input", function () {
-            formatCurrency(input);
-        });
+// Remove transaction row
+document.addEventListener("click", function (event) {
+    if (event.target.classList.contains("remove-transaction")) {
+        event.target.parentElement.remove();
+    }
+});
 
-        // Ensure formatting is applied when leaving the input field
-        input.addEventListener("blur", function () {
-            if (input.value === "" || input.value === "$0.00") {
-                input.value = "$0.00"; // Default value
-            }
-        });
-    });
+// Currency Formatting Function
+function formatCurrency(event) {
+    let value = event.target.value;
+
+    // Remove all characters that are not digits or a decimal point
+    value = value.replace(/[^\d.]/g, '');
+
+    // Ensure only one decimal point exists
+    const decimalIndex = value.indexOf('.');
+    if (decimalIndex !== -1) {
+        const wholePart = value.substring(0, decimalIndex);
+        let decimalPart = value.substring(decimalIndex + 1, decimalIndex + 3); // Allow only 2 decimals
+
+        // If there are additional decimal points after the first, truncate the string to keep only one
+        const nextDecimalIndex = value.indexOf('.', decimalIndex + 1);
+        if (nextDecimalIndex !== -1) {
+          value = value.substring(0, nextDecimalIndex);
+          decimalPart = value.substring(decimalIndex + 1, decimalIndex + 3); // Allow only 2 decimals
+        }
+
+        value = wholePart + '.' + decimalPart;
+    }
+    // Prevent any decimal point from being at the beginning
+    if(value.startsWith('.')){
+        value = "0"+value;
+    }
+    // If the value has changed, update the input's value
+        event.target.value = value;
+}
+
+// Attach event listeners to existing transaction amount inputs on page load
+const initialAmountInputs = document.querySelectorAll(".transaction-amount");
+initialAmountInputs.forEach(input => {
+    input.addEventListener("input", formatCurrency); // Apply function
+});
 
     //Not Received Merchandise Section (Initially Hidden)
     const disputeReason = document.getElementById("dispute-reason"); // The dropdown or selection field
